@@ -19,17 +19,18 @@ public class View extends javax.swing.JDialog {
     private Eclusa eclusa;
     private EclusaController controller;
     public View(EclusaController controller){
-        this.controller=controller;
         initComponents();
+        this.controller=controller;
     }
     public View(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
     public View(Eclusa eclusa){
+        initComponents();
         this.eclusa=eclusa;
         controller=new EclusaController(eclusa,this);
-        initComponents();
+        this.setLocationRelativeTo(null);
     }
     
    
@@ -43,39 +44,18 @@ public class View extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        campoPrecoPetroleiro = new javax.swing.JTextField();
-        campoPrecoTurismo = new javax.swing.JTextField();
-        campoPrecoBalsa = new javax.swing.JTextField();
         botaoAtualizarEclusa = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         statusEclusa = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         BotaoPetroleiro = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         botaoTurismo = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         botaoBalsa = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
         filaEclusa = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         apurado = new javax.swing.JLabel();
-        campoComprimento = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        campoLargura = new javax.swing.JTextField();
-        campoCapacidadeMaxima = new javax.swing.JTextField();
-        campoCapacidadeMinima = new javax.swing.JTextField();
-        campoVazao = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        campoPrecoCargueiro = new javax.swing.JTextField();
         botaoCargueiro = new javax.swing.JButton();
         barraProgresso = new javax.swing.JProgressBar();
-        tempo = new javax.swing.JLabel();
         encher = new javax.swing.JButton();
         secar = new javax.swing.JButton();
         sentEmbarcacao = new javax.swing.JLabel();
@@ -86,24 +66,11 @@ public class View extends javax.swing.JDialog {
         sentprox = new javax.swing.JLabel();
         embarcacaoeclusa = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        botaoCadastrarCapitao = new javax.swing.JButton();
+        botaoAtualizarPrecos1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        campoPrecoPetroleiro.setText("750.00");
-
-        campoPrecoTurismo.setText("600.00");
-        campoPrecoTurismo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoPrecoTurismoActionPerformed(evt);
-            }
-        });
-
-        campoPrecoBalsa.setText("350.00");
-        campoPrecoBalsa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoPrecoBalsaActionPerformed(evt);
-            }
-        });
 
         botaoAtualizarEclusa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         botaoAtualizarEclusa.setText("Atualizar Eclusa");
@@ -114,20 +81,13 @@ public class View extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setText("Eclusa");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Tamanho:");
+        jLabel1.setText("Simulador de Gestão de Eclusa");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Nova Embarcação:");
 
-        jLabel3.setText("Comprimento:");
-
         statusEclusa.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         statusEclusa.setText("Status da Eclusa: Seca");
-
-        jLabel4.setText("Largura:");
 
         BotaoPetroleiro.setText("Petroleiro");
         BotaoPetroleiro.addActionListener(new java.awt.event.ActionListener() {
@@ -136,18 +96,12 @@ public class View extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Capacidade Maxima(m³):");
-
         botaoTurismo.setText("Turismo");
         botaoTurismo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoTurismoActionPerformed(evt);
             }
         });
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Capacidade Minima(m³):");
 
         botaoBalsa.setText("Balsa");
         botaoBalsa.addActionListener(new java.awt.event.ActionListener() {
@@ -156,60 +110,14 @@ public class View extends javax.swing.JDialog {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("Preço por tipo de Embarcação:");
-
         filaEclusa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         filaEclusa.setText("Embarcações na fila: 0");
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Vazão(m³/min):");
 
         apurado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         apurado.setText("Total apurado no dia: R$0.00");
 
-        campoComprimento.setText("150");
-        campoComprimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoComprimentoActionPerformed(evt);
-            }
-        });
-
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel16.setText("Sentido da Embarcação:");
-
-        campoLargura.setText("25");
-        campoLargura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoLarguraActionPerformed(evt);
-            }
-        });
-
-        campoCapacidadeMaxima.setText("600");
-
-        campoCapacidadeMinima.setText("200");
-
-        campoVazao.setText("200");
-        campoVazao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoVazaoActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setText("Navio Cargueiro:");
-
-        jLabel10.setText("Navio Petroleiro:");
-
-        jLabel11.setText("Navio de Turismo:");
-
-        jLabel12.setText("Balsa:");
-
-        campoPrecoCargueiro.setText("500.00");
-        campoPrecoCargueiro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoPrecoCargueiroActionPerformed(evt);
-            }
-        });
 
         botaoCargueiro.setText("Cargueiro");
         botaoCargueiro.addActionListener(new java.awt.event.ActionListener() {
@@ -220,9 +128,6 @@ public class View extends javax.swing.JDialog {
 
         barraProgresso.setBackground(new java.awt.Color(255, 255, 255));
         barraProgresso.setStringPainted(true);
-
-        tempo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tempo.setText("Tempo total: 2.0min");
 
         encher.setText("Encher");
         encher.addActionListener(new java.awt.event.ActionListener() {
@@ -240,6 +145,8 @@ public class View extends javax.swing.JDialog {
         });
 
         sentEmbarcacao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        sentEmbarcacao.setAlignmentX(5.0F);
+        sentEmbarcacao.setAlignmentY(5.0F);
 
         tempoTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tempoTotal.setText("Previsao de tempo para todas as embarcações na fila: 0.0min");
@@ -258,7 +165,7 @@ public class View extends javax.swing.JDialog {
             }
         });
 
-        informacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        informacao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         informacao.setText("Eclusa Fechada");
 
         sentprox.setText("Sentido da próxima Embarcação: Fila vazia");
@@ -278,142 +185,107 @@ public class View extends javax.swing.JDialog {
             }
         });
 
+        botaoCadastrarCapitao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        botaoCadastrarCapitao.setText("Gerenciar Capitães");
+        botaoCadastrarCapitao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCadastrarCapitaoActionPerformed(evt);
+            }
+        });
+
+        botaoAtualizarPrecos1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        botaoAtualizarPrecos1.setText("Atualizar Preços");
+        botaoAtualizarPrecos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAtualizarPrecos1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Novo Dia");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(122, 122, 122)
-                        .addComponent(sentprox))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, 736, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(campoPrecoCargueiro, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(campoPrecoPetroleiro, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(campoPrecoTurismo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoPrecoBalsa, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoCapacidadeMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(campoComprimento, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(21, 21, 21)
+                                        .addComponent(sentprox))
+                                    .addComponent(informacao, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
+                                        .addComponent(abrir)
+                                        .addGap(153, 153, 153)
+                                        .addComponent(fechar))
+                                    .addComponent(statusEclusa)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(campoLargura, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoCapacidadeMaxima, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoVazao, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tempo)
-                            .addComponent(botaoAtualizarEclusa, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(62, 62, 62)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(botaoCargueiro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotaoPetroleiro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(botaoTurismo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(botaoBalsa))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(informacao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(abrir)
-                                    .addGap(47, 47, 47)
-                                    .addComponent(fechar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(encher)
-                                    .addGap(38, 38, 38)
-                                    .addComponent(secar))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(filaEclusa)
-                                    .addGap(29, 29, 29)
-                                    .addComponent(jButton1)
-                                    .addGap(177, 177, 177))
-                                .addComponent(barraProgresso, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tempoTotal, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(apurado, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel16)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(sentEmbarcacao))
-                                .addComponent(statusEclusa, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(embarcacaoeclusa))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                                        .addComponent(botaoCargueiro)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BotaoPetroleiro)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(botaoTurismo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(botaoBalsa))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(filaEclusa)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jButton1))
+                                    .addComponent(tempoTotal)
+                                    .addComponent(apurado)
+                                    .addComponent(embarcacaoeclusa))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(encher)
+                                        .addGap(127, 127, 127)
+                                        .addComponent(secar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(botaoAtualizarEclusa, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(botaoCadastrarCapitao, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(botaoAtualizarPrecos1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(42, 42, 42))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addGap(35, 35, 35)
+                                .addComponent(sentEmbarcacao, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(jLabel1)))
+                .addGap(0, 41, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(campoComprimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel13)
+                            .addComponent(botaoTurismo)
+                            .addComponent(botaoBalsa)
+                            .addComponent(botaoCargueiro)
+                            .addComponent(BotaoPetroleiro))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(campoLargura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(campoCapacidadeMaxima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(campoCapacidadeMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(campoVazao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BotaoPetroleiro)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel13)
-                                .addComponent(botaoTurismo)
-                                .addComponent(botaoBalsa)
-                                .addComponent(botaoCargueiro)))
-                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(filaEclusa)
                             .addComponent(jButton1))
@@ -422,68 +294,40 @@ public class View extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(apurado)
                         .addGap(18, 18, 18)
-                        .addComponent(embarcacaoeclusa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(embarcacaoeclusa))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botaoAtualizarPrecos1)
+                        .addGap(35, 35, 35)
+                        .addComponent(botaoCadastrarCapitao)
+                        .addGap(34, 34, 34)
+                        .addComponent(botaoAtualizarEclusa)))
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tempo)
                     .addComponent(jLabel16)
-                    .addComponent(sentEmbarcacao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(sentEmbarcacao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sentprox)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusEclusa)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel9)
-                                .addComponent(campoPrecoCargueiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(sentprox))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(campoPrecoPetroleiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(16, 16, 16))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(campoPrecoTurismo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(32, 32, 32)
+                        .addComponent(statusEclusa)))
+                .addGap(17, 17, 17)
+                .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPrecoBalsa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
                     .addComponent(encher)
                     .addComponent(secar)
                     .addComponent(fechar)
                     .addComponent(abrir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botaoAtualizarEclusa)
-                    .addComponent(informacao))
-                .addGap(43, 43, 43))
+                .addGap(18, 18, 18)
+                .addComponent(informacao)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addGap(47, 47, 47))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void campoComprimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoComprimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoComprimentoActionPerformed
-
-    private void campoLarguraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLarguraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoLarguraActionPerformed
-
-    private void campoPrecoCargueiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPrecoCargueiroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoPrecoCargueiroActionPerformed
-
-    private void campoPrecoTurismoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPrecoTurismoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoPrecoTurismoActionPerformed
 
     private void botaoAtualizarEclusaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarEclusaActionPerformed
         controller.evento(evt);
@@ -495,10 +339,6 @@ public class View extends javax.swing.JDialog {
     private void botaoCargueiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCargueiroActionPerformed
         controller.evento(evt);
     }//GEN-LAST:event_botaoCargueiroActionPerformed
-
-    private void campoVazaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoVazaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoVazaoActionPerformed
 
     private void BotaoPetroleiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoPetroleiroActionPerformed
         controller.evento(evt);
@@ -532,13 +372,21 @@ public class View extends javax.swing.JDialog {
         controller.evento(evt);
     }//GEN-LAST:event_embarcacaoeclusaActionPerformed
 
-    private void campoPrecoBalsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPrecoBalsaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoPrecoBalsaActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         controller.evento(evt);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void botaoCadastrarCapitaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCadastrarCapitaoActionPerformed
+        controller.evento(evt);// TODO add your handling code here:
+    }//GEN-LAST:event_botaoCadastrarCapitaoActionPerformed
+
+    private void botaoAtualizarPrecos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAtualizarPrecos1ActionPerformed
+        controller.evento(evt);// TODO add your handling code here:
+    }//GEN-LAST:event_botaoAtualizarPrecos1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        controller.evento(evt);// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -589,43 +437,25 @@ public class View extends javax.swing.JDialog {
     private javax.swing.JLabel apurado;
     private javax.swing.JProgressBar barraProgresso;
     private javax.swing.JButton botaoAtualizarEclusa;
+    private javax.swing.JButton botaoAtualizarPrecos1;
     private javax.swing.JButton botaoBalsa;
+    private javax.swing.JButton botaoCadastrarCapitao;
     private javax.swing.JButton botaoCargueiro;
     private javax.swing.JButton botaoTurismo;
-    private javax.swing.JTextField campoCapacidadeMaxima;
-    private javax.swing.JTextField campoCapacidadeMinima;
-    private javax.swing.JTextField campoComprimento;
-    private javax.swing.JTextField campoLargura;
-    private javax.swing.JTextField campoPrecoBalsa;
-    private javax.swing.JTextField campoPrecoCargueiro;
-    private javax.swing.JTextField campoPrecoPetroleiro;
-    private javax.swing.JTextField campoPrecoTurismo;
-    private javax.swing.JTextField campoVazao;
     private javax.swing.JButton embarcacaoeclusa;
     private javax.swing.JButton encher;
     private javax.swing.JButton fechar;
     private javax.swing.JLabel filaEclusa;
     private javax.swing.JLabel informacao;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JButton secar;
     private javax.swing.JLabel sentEmbarcacao;
     private javax.swing.JLabel sentprox;
     private javax.swing.JLabel statusEclusa;
-    private javax.swing.JLabel tempo;
     private javax.swing.JLabel tempoTotal;
     // End of variables declaration//GEN-END:variables
 
@@ -654,42 +484,5 @@ public class View extends javax.swing.JDialog {
     public void barra(int valor){
         barraProgresso.setValue(valor);
     }
-    public String getCampoComprimento() {
-    return campoComprimento.getText();
-    }
-
-    public String getCampoLargura() {
-        return campoLargura.getText();
-    }
-
-    public String getCampoCapacidadeMaxima() {
-        return campoCapacidadeMaxima.getText();
-    }
-
-    public String getCampoCapacidadeMinima() {
-        return campoCapacidadeMinima.getText();
-    }
-
-    public String getCampoVazao() {
-        return campoVazao.getText();
-    }
-
-    public String getCampoPrecoCargueiro() {
-        return campoPrecoCargueiro.getText();
-    }
-
-    public String getCampoPrecoPetroleiro() {
-        return campoPrecoPetroleiro.getText();
-    }
-
-    public String getCampoPrecoTurismo() {
-        return campoPrecoTurismo.getText();
-    }
-
-    public String getCampoPrecoBalsa() {
-        return campoPrecoBalsa.getText();
-    }
-    public void atuaTempo(float tempo){
-        this.tempo.setText("Tempo total: "+ tempo+"min");
-    }       
+         
 }

@@ -23,6 +23,8 @@ public class EmbarEclusaView extends javax.swing.JDialog {
     public EmbarEclusaView(EclusaController controller){
         this.controller=controller;
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**

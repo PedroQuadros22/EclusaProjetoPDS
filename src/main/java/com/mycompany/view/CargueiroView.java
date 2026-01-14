@@ -5,7 +5,9 @@
 package com.mycompany.view;
 
 import controller.EclusaController;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import model.Capitao;
 
 /**
  *
@@ -20,6 +22,8 @@ public class CargueiroView extends javax.swing.JDialog {
     public CargueiroView(EclusaController controller){
         this.controller=controller;
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
     public CargueiroView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -51,7 +55,6 @@ public class CargueiroView extends javax.swing.JDialog {
         origem = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        capitao = new javax.swing.JTextField();
         destino = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         pais = new javax.swing.JTextField();
@@ -59,6 +62,7 @@ public class CargueiroView extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        cbCapitaes = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -122,6 +126,12 @@ public class CargueiroView extends javax.swing.JDialog {
             }
         });
 
+        cbCapitaes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCapitaesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,7 +142,7 @@ public class CargueiroView extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(capitao, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbCapitaes, 0, 196, Short.MAX_VALUE))
                     .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
@@ -153,7 +163,7 @@ public class CargueiroView extends javax.swing.JDialog {
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(sentido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -194,7 +204,7 @@ public class CargueiroView extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(capitao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbCapitaes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -255,6 +265,10 @@ public class CargueiroView extends javax.swing.JDialog {
         controller.evento(evt);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void cbCapitaesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCapitaesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCapitaesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -298,7 +312,7 @@ public class CargueiroView extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField capitao;
+    private javax.swing.JComboBox<model.Capitao> cbCapitaes;
     private javax.swing.JTextField codigoIdentificacao;
     private javax.swing.JTextField comprimento;
     private javax.swing.JTextField conteiners;
@@ -333,9 +347,6 @@ public class CargueiroView extends javax.swing.JDialog {
         return pais.getText();
     }
 
-    public String getCapitao() {
-        return capitao.getText();
-    }
 
     public String getSentido() {
         return (String) sentido.getSelectedItem();
@@ -356,5 +367,17 @@ public class CargueiroView extends javax.swing.JDialog {
     public int getContainers() throws NumberFormatException {
         return Integer.parseInt(conteiners.getText());
     }
-
+    public void atualizarComboCapitaes(Capitao[] listaCapitaes) {
+        
+        // O DefaultComboBoxModel aceita um vetor de objetos
+        DefaultComboBoxModel<Capitao> model = new DefaultComboBoxModel<>(listaCapitaes);
+        
+        // Define o modelo na tua ComboBox visual
+        cbCapitaes.setModel(model);
+    }
+    
+    // MÉTODO ÚTIL: Para pegares quem foi escolhido
+    public Capitao getCapitaoSelecionado() {
+        return (Capitao) cbCapitaes.getSelectedItem();
+    }
 }

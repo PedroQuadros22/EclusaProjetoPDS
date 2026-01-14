@@ -37,4 +37,5 @@ public class NavioTuristico extends Embarcacao {
         String mensagem=("Capitão:"+ this.getNome()+"\n"+"Codigo de Identificação:"+this.getCodigoDeIdentificacao()+"\nPorto de Origem: "+this.getPortoOrigem()+"\nPorto de Destino: "+this.getPortoDestino()+"\nPaís: "+this.getPais()+"\nNúmero de Passageiros: "+this.getNumPassageiros()+"\nNúmero de Cabines"+this.getNumCabines());
         return mensagem;
     }
+
 }

@@ -1,442 +1,350 @@
 package controller;
 
-import com.mycompany.view.BalsaView;
-import com.mycompany.view.CargueiroView;
-import com.mycompany.view.EmbarEclusaView;
-import com.mycompany.view.PetroleiroView;
-import com.mycompany.view.RemoverEmbarcacao;
-import com.mycompany.view.TurismoView;
+import com.mycompany.view.*;
 import model.Eclusa;
-import com.mycompany.view.View;
-import exception.TamanhoIncompativelException;
+import model.Embarcacao;
+import model.Capitao;
+import service.EclusaService;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import model.Balsa;
-import model.Cargueiro;
-import model.NavioTuristico;
-import model.Capitao;
-import model.Petroleiro;
-import model.Tamanho;
 
 public class EclusaController {
+    
     private Eclusa model;
+    private EclusaService service; 
     private View view;
+    
+    // Views filhas
     private BalsaView balsaView;
     private PetroleiroView petroView;
     private TurismoView turiView;
     private CargueiroView cargView;
     private RemoverEmbarcacao removeView;
-    private EmbarEclusaView tela= new EmbarEclusaView(this);
+    private EmbarEclusaView tela = new EmbarEclusaView(this);
+    private AtualizarView telaAtualizar = new AtualizarView(this);
+    private PrecoView telaPreco = new PrecoView(this);
+    private CapitaoView capitaoView = new CapitaoView(this);
+    private GerenciarCapitaoView gerenCapView = new GerenciarCapitaoView(this);
+    private ExcluirCapView excluirCapView = new ExcluirCapView(this);
+    private AtualizarCapitaoView atualizarCapView = new AtualizarCapitaoView(this);
 
     public EclusaController(){}
+    
     public EclusaController(Eclusa model, View view){
-        this.model=model;
-        this.view=view;
+        this.model = model;
+        this.view = view;
+        this.service = new EclusaService(model); 
+        this.atualizarDadosNaTela();
     }
-    public void evento (java.awt.event.ActionEvent evt){
+
+    public void evento(java.awt.event.ActionEvent evt) {
         String comando = evt.getActionCommand();
-        if ("Abrir".equals(comando)) {
-            this.abrir();
-        }if("Fechar".equals(comando)){
-            this.fechar();
-        }if("Cargueiro".equals(comando)){
-            this.addCargueiro();
-        }if("Petroleiro".equals(comando)){
-            this.addPetroleiro();
-        }if("Turismo".equals(comando)){
-            this.addTurismo();
-        }if("Balsa".equals(comando)){
-            this.addBalsa();
-        }if("Secar".equals(comando)){
-            this.secar();
-        }if("Encher".equals(comando)){
-            this.encher();
-        }if("EmbarcacaonaEclusa".equals(comando)){
-            this.mostrarEmbarcacao();
-        }if("Atualizar Eclusa".equals(comando)){
-            this.atualizarEclusa();
-        }if("VoltarBalsa".equals(comando)){
-            this.voltarBalsa();
-        }if("VoltarCarg".equals(comando)){
-            this.voltarCarg();
-        }if("VoltarTuri".equals(comando)){
-            this.voltarTuri();
-        }if("VoltarPetro".equals(comando)){
-            this.voltarPetro();
-        }if("addBalsa".equals(comando)){
-            this.adicionarBalsa();
-        }if("addCargueiro".equals(comando)){
-            this.adicionarCargueiro();
-        }if("addTurismo".equals(comando)){
-            this.adicionarTurismo();
-        }if("addPetroleiro".equals(comando)){
-            this.adicionarPetroleiro();
-        }if("Voltar".equals(comando)){
-            this.voltar();
-        }if("SIM".equals(comando)){
-            this.remove();
-        }if("NÂO".equals(comando)){
-            this.naoRemoverEmbarcacao();
-        }if("Remover da Fila".equals(comando)){
-            this.abrirRemove();
-        }
-    }
-    
-    public void voltar(){
-        tela.setVisible(false);
-    }
-    
-    public void naoRemoverEmbarcacao(){
-        removeView.setVisible(false);
-    }
-    
-    public void abrirRemove(){
-        if(model.tamanhoFila()==0){
-            JOptionPane.showMessageDialog(view, "Fila Vazia");
-        }else{
-            removeView= new RemoverEmbarcacao(this);
-            this.mostrarEmbarcacao(true);
-            removeView.setVisible(true);
-        }
-    }
-    
-    
-    public void remove(){
-        if(model.tamanhoFila()>0){
-            view.atualizartotalApuradoRemove();
-            view.atualizaFila(model.tamanhoFila(),model.tempo());
-            if(model.tamanhoFila()==0){
-                view.sentidoProxima("Fila vazia");
-            }
-            removeView.setVisible(false);
-            JOptionPane.showMessageDialog(view, "A última embarcação saiu da fila");
-        }
-    }
-    
-    public void voltarBalsa(){
-        balsaView.setVisible(false);
-    }
-    public void voltarPetro(){
-        petroView.setVisible(false);
-    }public void voltarTuri(){
-        turiView.setVisible(false);
-    }public void voltarCarg(){
-        cargView.setVisible(false);
-    }
-    
-    public void adicionarCargueiro(){
-        try {
-            if (cargView.getComprimento() < 0 || cargView.getLargura() < 0 || 
-                cargView.getContainers() < 0 || cargView.getCodigoIdentificacao() < 0) {
-                JOptionPane.showMessageDialog(cargView, "Por favor, insira valores numéricos positivos.");
-            } else {
-                if (cargView.getOrigem().isEmpty() || cargView.getDestino().isEmpty() || 
-                    cargView.getPais().isEmpty() || cargView.getCapitao().isEmpty() || 
-                    cargView.getSentido().isEmpty()) {
-                    JOptionPane.showMessageDialog(cargView, "Por favor, preencha todos os campos.");
-                } else {
-                    this.addCargueiro(cargView.getComprimento(), cargView.getLargura(), 
-                                      cargView.getOrigem(), cargView.getDestino(), 
-                                      cargView.getPais(), cargView.getCodigoIdentificacao(), 
-                                      cargView.getCapitao(), cargView.getSentido(), 
-                                      cargView.getContainers());
+
+        switch (comando) {
+            // --- CONTROLES DA ECLUSA ---
+            case "Abrir": this.abrir(); break;
+            case "Fechar": this.fechar(); break;
+            case "Secar": this.secar(); break;
+            case "Encher": this.encher(); break;
+            case "Atualizar Dados Eclusa": this.atualizarEclusa(); break;
+            case "Novo Dia": this.novoDia();break;
+            
+            // --- NAVEGAÇÃO ENTRE JANELAS ---
+            case "ExcluirCap": this.telaExcluirCap(); break;
+            case "Atualizar Eclusa": this.telaAtualizarEclusa(); break;
+            case "Atualizar Preços": this.telaAtualizarPrecos(); break;
+            case "Editar": this.telaEditar(); break;
+            case "Cadastrar Novo": this.telaCapitao(); break;
+            case "Gerenciar Capitães": this.telaGerenCap(); break;
+            case "Cargueiro": this.abrirViewCargueiro(); break;
+            case "Petroleiro": this.abrirViewPetroleiro(); break;
+            case "Turismo": this.abrirViewTurismo(); break;
+            case "Balsa": this.abrirViewBalsa(); break;
+            
+            // Botões Voltar
+            case "VoltarBalsa": if(balsaView!=null) balsaView.setVisible(false); break;
+            case "VoltarCarg": if(cargView!=null) cargView.setVisible(false); break;
+            case "VoltarTuri": if(turiView!=null) turiView.setVisible(false); break;
+            case "VoltarPetro": if(petroView!=null) petroView.setVisible(false); break;
+            case "Voltar": this.voltar(); break;
+            case "VoltarCap": capitaoView.setVisible(false); break;
+            case "VoltarPreco": telaPreco.setVisible(false); break;
+            case "VoltarEclusa": telaAtualizar.setVisible(false); break;
+            case "VoltarGereCap": gerenCapView.setVisible(false); break;
+            case "VoltarExcluir": excluirCapView.setVisible(false); break;
+            case "VoltarEditar": atualizarCapView.setVisible(false); break;
+
+            // --- AÇÕES DO CRUD DE CAPITÃO (Delegando para o Service) ---
+            
+            case "Cadastrar": 
+                try {
+                    // Chama o Service para validar e salvar
+                    service.cadastrarCapitao(
+                        capitaoView.getNome(), 
+                        capitaoView.getNumLicenca(), 
+                        capitaoView.getContato()
+                    );
+                    
+                    this.atualizarListasNasViews(); // Atualiza a UI
+                    
+                    JOptionPane.showMessageDialog(capitaoView, "Capitão cadastrado com sucesso!");
+                    capitaoView.limparCampos();
+                    gerenCapView.setListaCaptaes(service.gerarRelatorioCapitaes());
+                    
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(capitaoView, e.getMessage());
                 }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(cargView, "Por favor, insira valores numéricos válidos nos campos de número.");
-        }
-    }
+                break;
 
-    public void adicionarTurismo(){
-        try {
-            if (turiView.getComprimento() < 0 || turiView.getLargura() < 0 || 
-                turiView.getPassageiros() < 0 || turiView.getCabine() < 0 || 
-                turiView.getCodigoIdentificacao() < 0) {
-                JOptionPane.showMessageDialog(turiView, "Por favor, insira valores numéricos positivos.");
-            } else {
-                if (turiView.getOrigem().isEmpty() || turiView.getDestino().isEmpty() || 
-                    turiView.getPais().isEmpty() || turiView.getCapitao().isEmpty() || 
-                    turiView.getSentido().isEmpty()) {
-                    JOptionPane.showMessageDialog(turiView, "Por favor, preencha todos os campos.");
-                } else {
-                    this.addTurismo(turiView.getComprimento(), turiView.getLargura(), 
-                                     turiView.getOrigem(), turiView.getDestino(), 
-                                     turiView.getPais(), turiView.getCodigoIdentificacao(), 
-                                     turiView.getCapitao(), turiView.getSentido(), 
-                                     turiView.getPassageiros(), turiView.getCabine());
+            case "ExcluirCapitao":
+                try {
+                    Capitao selecionado = excluirCapView.getCapitaoSelecionado();
+                    service.removerCapitao(selecionado); // Service remove
+                    
+                    this.atualizarListasNasViews(); // UI atualiza
+                    gerenCapView.setListaCaptaes(service.gerarRelatorioCapitaes());
+                    
+                    JOptionPane.showMessageDialog(excluirCapView, "Capitão removido!");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(excluirCapView, "Erro: " + e.getMessage());
                 }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(turiView, "Por favor, insira valores numéricos válidos nos campos de número.");
-        }
-    }
+                break;
 
-    
-    public void adicionarPetroleiro(){
-        try {
-            if (petroView.getComprimento() < 0 || petroView.getLargura() < 0 || 
-                petroView.getLitros() < 0 || petroView.getCodigoIdentificacao() < 0) {
-                JOptionPane.showMessageDialog(petroView, "Por favor, insira valores numéricos positivos.");
-            } else {
-                if (petroView.getOrigem().isEmpty() || petroView.getDestino().isEmpty() || 
-                    petroView.getPais().isEmpty() || petroView.getCapitao().isEmpty() || 
-                    petroView.getSentido().isEmpty()) {
-                    JOptionPane.showMessageDialog(petroView, "Por favor, preencha todos os campos.");
-                } else {
-                    this.addPetroleiro(petroView.getComprimento(), petroView.getLargura(), 
-                                        petroView.getOrigem(), petroView.getDestino(), 
-                                        petroView.getPais(), petroView.getCodigoIdentificacao(), 
-                                        petroView.getCapitao(), petroView.getSentido(), 
-                                        petroView.getLitros());
+            case "AtualizarCap":
+                try {
+                    Capitao selecionado = atualizarCapView.getCapitaoSelecionado();
+                    service.atualizarCapitao(
+                        selecionado, 
+                        atualizarCapView.getNome(), 
+                        atualizarCapView.getNumLicenca(), 
+                        atualizarCapView.getContato()
+                    );
+                    
+                    this.atualizarListasNasViews();
+                    gerenCapView.setListaCaptaes(service.gerarRelatorioCapitaes());
+                    atualizarCapView.limparCampos();
+                    
+                    JOptionPane.showMessageDialog(atualizarCapView, "Atualizado com sucesso!");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(atualizarCapView, "Erro: " + e.getMessage());
                 }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(petroView, "Por favor, insira valores numéricos válidos nos campos de número.");
+                break;
+
+            //AÇÕES DE EMBARCAÇÃO
+            
+            case "addBalsa": this.adicionarEmbarcacao("balsa", balsaView); break;
+            case "addCargueiro": this.adicionarEmbarcacao("cargueiro", cargView); break;
+            case "addPetroleiro": this.adicionarEmbarcacao("petroleiro", petroView); break;
+            case "addTurismo": this.adicionarEmbarcacao("turismo", turiView); break;
+            
+            case "AtualizarPreco": this.atualizarPreco(); break;
+            case "Atualizar": this.atualizarEclusa(); break;
+            
+            // Outros
+            case "EmbarcacaonaEclusa": this.mostrarEmbarcacao(); break;
+            case "Remover da Fila": this.abrirRemove(); break;
+            case "SIM": this.remove(); break;
+            case "NÂO": this.naoRemoverEmbarcacao(); break;
+
+            default: System.out.println("Comando: " + comando);
         }
     }
 
-    public void adicionarBalsa(){
-    try {
-        if (balsaView.getComprimento() < 0 || balsaView.getLargura() < 0 || 
-            balsaView.getPeso() < 0 || balsaView.getCodigoIdentificacao() < 0) {
-            JOptionPane.showMessageDialog(balsaView, "Por favor, insira valores numéricos positivos.");
-        } else {
-            if (balsaView.getOrigem().isEmpty() || balsaView.getDestino().isEmpty() ||
-                balsaView.getPais().isEmpty() || balsaView.getCapitao().isEmpty() ||
-                balsaView.getSentido().isEmpty() || balsaView.getCarga().isEmpty()) {
-                JOptionPane.showMessageDialog(balsaView, "Por favor, preencha todos os campos.");
-            } else {
-                this.addBalsa(balsaView.getComprimento(), balsaView.getLargura(), 
-                               balsaView.getOrigem(), balsaView.getDestino(), 
-                               balsaView.getPais(), balsaView.getCodigoIdentificacao(), 
-                               balsaView.getCapitao(), balsaView.getSentido(), 
-                               balsaView.getCarga(), balsaView.getPeso());
-            }
-        }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(balsaView, "Por favor, insira valores numéricos válidos nos campos de número.");
-    }
-}
+    // --- MÉTODOS AUXILIARES E DE UI ---
 
-    public void atualizarEclusa(){
-        try {
-            float comprimentoValor = Float.parseFloat(view.getCampoComprimento());
-            float larguraValor = Float.parseFloat(view.getCampoLargura());
-            float capacidadeMaximaValor = Float.parseFloat(view.getCampoCapacidadeMaxima());
-            float capacidadeMinimaValor = Float.parseFloat(view.getCampoCapacidadeMinima());
-            float vazaoValor = Float.parseFloat(view.getCampoVazao());
-            float precoCargueiroValor = Float.parseFloat(view.getCampoPrecoCargueiro());
-            float precoPetroleiroValor = Float.parseFloat(view.getCampoPrecoPetroleiro());
-            float precoTurismoValor = Float.parseFloat(view.getCampoPrecoTurismo());
-            float precoBalsaValor = Float.parseFloat(view.getCampoPrecoBalsa());
-
-            if (comprimentoValor < 0 || larguraValor < 0 || capacidadeMaximaValor < 0 || capacidadeMinimaValor < 0 ||
-                vazaoValor < 0 || precoCargueiroValor < 0 || precoPetroleiroValor < 0 || precoTurismoValor < 0 || precoBalsaValor < 0) {
-                view.mostrarErro();
-            } else {
-                this.atualizarEclusa(view.getCampoComprimento(), view.getCampoLargura(), view.getCampoCapacidadeMaxima(),
-                        view.getCampoCapacidadeMinima(), view.getCampoVazao(), view.getCampoPrecoCargueiro(),
-                        view.getCampoPrecoPetroleiro(), view.getCampoPrecoTurismo(), view.getCampoPrecoBalsa());
-                view.atuaTempo(model.tempo());
-                view.atualizaFila(model.tamanhoFila(),model.tempo());
-            }
-        } catch (NumberFormatException e) {
-            view.mostrarErro();
-        }
-    }
-
-    public void addPetroleiro(){
-        petroView=new PetroleiroView(this);
-        petroView.setVisible(true);
+    // Método para os testes chamarem, caso necessário
+    public void cadastrarCapitao(String nome, String licenca, String contato) throws Exception {
+        service.cadastrarCapitao(nome, licenca, contato);
     }
     
-    public void addPetroleiro(float comprimento, float largura, String origem, String destino, String pais, int cI, String nome, String sentido, float litros) {
-        Capitao capitao= new Capitao(nome);
-        Tamanho tamanho= new Tamanho(comprimento,largura);
-        try {
-            tamanho.cabeNaEclusa(model.getTamanho());
-            Petroleiro petroleiro=new Petroleiro(tamanho,origem,destino,pais,cI,capitao,sentido,litros);
-            if(!model.setEmbarcacoes(cI, petroleiro)){
-                JOptionPane.showMessageDialog(petroView, "Já tem um Navio Petroleiro na fila com esse Código de identificação");
-                return;
-            }
-            view.atualizaFila(model.tamanhoFila(),model.tempo());
-            view.atualizartotalApurado();
-            petroView.setVisible(false);
-            if(model.getFila().get(0).getSentido().equals("Subir")){
-                view.sentidoProxima("RIO--->MAR");
-            }else{
-                view.sentidoProxima("MAR--->RIO");
-            }
-        } catch (TamanhoIncompativelException e) {
-            petroView.mostrarErro();
-        }
-
+    public String listarCapitaes() {
+        return service.gerarRelatorioCapitaes();
+    }
+    
+    // Método auxiliar unificado para atualizar todas as ComboBoxes
+    private void atualizarListasNasViews() {
+        Capitao[] lista = service.getArrayCapitaes();
         
+        if (excluirCapView != null) excluirCapView.atualizarComboCapitaes(lista);
+        if (atualizarCapView != null) atualizarCapView.atualizarComboCapitaes(lista);
+        if (balsaView != null) balsaView.atualizarComboCapitaes(lista);
+        if (cargView != null) cargView.atualizarComboCapitaes(lista);
+        if (turiView != null) turiView.atualizarComboCapitaes(lista);
+        if (petroView != null) petroView.atualizarComboCapitaes(lista);
+    }
+
+    // --- ABRIR JANELAS (Carregando listas do Service) ---
+
+    public void telaCapitao() {
+        capitaoView.setVisible(true);
     }
     
-    public void addBalsa(){
-        balsaView=new BalsaView(this);
+    public void telaGerenCap() {
+        gerenCapView.setListaCaptaes(service.gerarRelatorioCapitaes());
+        gerenCapView.setVisible(true);
+    }
+    
+    public void telaExcluirCap() {
+        this.atualizarListasNasViews();
+        excluirCapView.setVisible(true);
+    }
+
+    public void telaEditar() {
+        this.atualizarListasNasViews();
+        atualizarCapView.setVisible(true);
+    }
+
+    // Métodos abrirView
+    public void abrirViewBalsa() {
+        balsaView = new BalsaView(this);
+        if (service.temCapitaes()) balsaView.atualizarComboCapitaes(service.getArrayCapitaes());
         balsaView.setVisible(true);
     }
-    public void addBalsa(float comprimento, float largura, String origem, String destino, String pais, int cI, String nome, String sentido, String carga,float peso) {
-        Capitao capitao= new Capitao(nome);
-        Tamanho tamanho= new Tamanho(comprimento,largura);
-        try {
-            tamanho.cabeNaEclusa(model.getTamanho());
-            Balsa balsa=new Balsa(tamanho,origem,destino,pais,cI,capitao,sentido,carga,peso);
-            if(!model.setEmbarcacoes(cI, balsa)){
-                JOptionPane.showMessageDialog(balsaView, "Já tem uma balsa na fila com esse Código de identificação");
-                return;
-            }
-            view.atualizaFila(model.tamanhoFila(),model.tempo());
-            view.atualizartotalApurado();
-            balsaView.setVisible(false);
-            if(model.getFila().get(0).getSentido().equals("Subir")){
-                view.sentidoProxima("RIO--->MAR");
-            }else{
-                view.sentidoProxima("MAR--->RIO");
-            }
-        } catch (TamanhoIncompativelException e) {
-            balsaView.mostrarErro();
-        }
-    }
     
-    
-    public void addCargueiro(){
-        cargView=new CargueiroView(this);
-        cargView.setVisible(true);
+    public void abrirViewCargueiro(){ 
+        cargView=new CargueiroView(this); 
+        if(service.temCapitaes()) cargView.atualizarComboCapitaes(service.getArrayCapitaes()); 
+        cargView.setVisible(true); 
     }
-    public void addCargueiro(float comprimento, float largura, String origem, String destino, String pais, int cI, String nome, String sentido, int conteineres) {
-        Capitao capitao= new Capitao(nome);
-        Tamanho tamanho= new Tamanho(comprimento,largura);
+    public void abrirViewPetroleiro(){ 
+        petroView=new PetroleiroView(this); 
+        if(service.temCapitaes()) petroView.atualizarComboCapitaes(service.getArrayCapitaes()); 
+        petroView.setVisible(true); 
+    }
+    public void abrirViewTurismo(){ 
+        turiView=new TurismoView(this); 
+        if(service.temCapitaes()) turiView.atualizarComboCapitaes(service.getArrayCapitaes()); 
+        turiView.setVisible(true); 
+    }
+
+    // --- LÓGICA DE ADICIONAR EMBARCAÇÃO 
+
+    private void adicionarEmbarcacao(String tipo, java.awt.Window viewAtual) {
         try {
-            tamanho.cabeNaEclusa(model.getTamanho());
-            Cargueiro cargueiro=new Cargueiro(tamanho,origem,destino,pais,cI,capitao,sentido,conteineres);
-            if(!model.setEmbarcacoes(cI, cargueiro)){
-                JOptionPane.showMessageDialog(cargView, "Já tem um Navio Cargueiro na fila com esse Código de identificação");
-                return;
+            // Variáveis para coletar da UI
+            float comp=0, larg=0; String ori="", dest="", pais="", sent=""; int ci=0; Capitao cap=null;
+            Object[] extras = new Object[0];
+
+            // Coleta dados específicos dependendo de qual tela está aberta
+            if (tipo.equals("balsa")) {
+                comp = balsaView.getComprimento(); larg = balsaView.getLargura();
+                ori = balsaView.getOrigem(); dest = balsaView.getDestino();
+                pais = balsaView.getPais(); ci = balsaView.getCodigoIdentificacao();
+                cap = balsaView.getCapitaoSelecionado(); sent = balsaView.getSentido();
+                extras = new Object[]{balsaView.getCarga(), balsaView.getPeso()};
+            } else if (tipo.equals("cargueiro")) {
+                comp = cargView.getComprimento(); larg = cargView.getLargura();
+                ori = cargView.getOrigem(); dest = cargView.getDestino();
+                pais = cargView.getPais(); ci = cargView.getCodigoIdentificacao();
+                cap = cargView.getCapitaoSelecionado(); sent = cargView.getSentido();
+                extras = new Object[]{cargView.getContainers()};
+            } else if (tipo.equals("petroleiro")) {
+                comp=petroView.getComprimento(); larg=petroView.getLargura(); ori=petroView.getOrigem(); dest=petroView.getDestino();
+                pais=petroView.getPais(); ci=petroView.getCodigoIdentificacao(); cap=petroView.getCapitaoSelecionado(); sent=petroView.getSentido();
+                extras = new Object[]{petroView.getLitros()};
+            } else if (tipo.equals("turismo")) {
+                comp=turiView.getComprimento(); larg=turiView.getLargura(); ori=turiView.getOrigem(); dest=turiView.getDestino();
+                pais=turiView.getPais(); ci=turiView.getCodigoIdentificacao(); cap=turiView.getCapitaoSelecionado(); sent=turiView.getSentido();
+                extras = new Object[]{turiView.getPassageiros(), turiView.getCabine()};
             }
-            view.atualizaFila(model.tamanhoFila(),model.tempo());
+
+            // O Controller apenas passa os dados brutos para o Service
+            service.adicionarEmbarcacao(tipo, comp, larg, ori, dest, pais, ci, cap, sent, extras);
+
+            // Atualiza View Principal
+            view.atualizaFila(model.tamanhoFila(), model.tempo());
             view.atualizartotalApurado();
-            cargView.setVisible(false);
-            if(model.getFila().get(0).getSentido().equals("Subir")){
-                view.sentidoProxima("RIO--->MAR");
-            }else{
-                view.sentidoProxima("MAR--->RIO");
+            
+            // Fecha janela
+            if (viewAtual != null) viewAtual.setVisible(false);
+            
+            // Atualiza sentido na tela principal
+            String sentidoProx = "Fila vazia";
+            if (model.tamanhoFila() > 0) {
+                 sentidoProx = model.getFila().get(0).getSentido().equals("Subir") ? "RIO--->MAR" : "MAR--->RIO";
             }
-        } catch (TamanhoIncompativelException e) {
-            cargView.mostrarErro();
+            view.sentidoProxima(sentidoProx);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(viewAtual, "Erro: " + e.getMessage());
         }
     }
-    
-    public void addTurismo(){
-        turiView=new TurismoView(this);
-        turiView.setVisible(true);
-    }
-    public void addTurismo(float comprimento, float largura, String origem, String destino, String pais, int cI, String nome, String sentido, int passageiros,int cabine) {
-        Capitao capitao= new Capitao(nome);
-        Tamanho tamanho= new Tamanho(comprimento,largura);
+
+    // --- OPERAÇÕES DA ECLUSA (Chama Service para validar) ---
+
+    public void abrir() {
         try {
-            tamanho.cabeNaEclusa(model.getTamanho());
-            NavioTuristico turismo=new NavioTuristico(tamanho,origem,destino,pais,cI,capitao,sentido,passageiros,cabine);
-            if(!model.setEmbarcacoes(cI, turismo)){
-                JOptionPane.showMessageDialog(turiView, "Já tem um Navio Turistico na fila com esse Código de identificação");
-                return;
-            }
-            view.atualizaFila(model.tamanhoFila(),model.tempo());
-            view.atualizartotalApurado();
-            turiView.setVisible(false);
-            if(model.getFila().get(0).getSentido().equals("Subir")){
-                view.sentidoProxima("RIO--->MAR");
-            }else{
-                view.sentidoProxima("MAR--->RIO");
-            }
-        } catch (TamanhoIncompativelException e) {
-            turiView.mostrarErro();
-        }
-    }
-    public void atualizarEclusa(String comprimento, String largura, String capacidadeMaxima, String capacidadeMinima,
-            String vazao, String precoCargueiro, String precoPetroleiro, String precoTurismo, String precoBalsa) {
-        if(Float.parseFloat(comprimento)!=model.getTamanho().getComprimento()){
-            model.getTamanho().setComprimento(Float.parseFloat(comprimento));
-        }
-        if(Float.parseFloat(largura)!=model.getTamanho().getLargura()){
-            model.getTamanho().setLargura(Float.parseFloat(largura));
-        }
-        if(Float.parseFloat(capacidadeMaxima)!=model.getCapacidadeMaxima()){
-            if(Float.parseFloat(capacidadeMaxima)<model.getCapacidadeMinima()){
-                JOptionPane.showMessageDialog(view, "Capacidade Maxima não pode ser menor que a Minima");
-            }else{
-                model.setCapacidadeMaxima(Float.parseFloat(capacidadeMaxima));
-            }
-        }
-        if(Float.parseFloat(capacidadeMinima)!=model.getCapacidadeMinima()){
-            if(Float.parseFloat(capacidadeMinima)>model.getCapacidadeMaxima()){
-                JOptionPane.showMessageDialog(view, "Capacidade Minima não pode ser maior que a Maxima");
-            }else{
-                model.setCapacidadeMinima(Float.parseFloat(capacidadeMinima));
-            }
-        }
-        if(Float.parseFloat(vazao)!=model.getVazao()){
-            model.setVazao(Float.parseFloat(vazao));
-        }
-        if(Float.parseFloat(precoCargueiro)!=model.getPrecoPorTipo().get("cargueiro")){
-            model.removerPreco("cargueiro");
-            model.setPrecoPorTipo("cargueiro",Float.parseFloat(precoCargueiro));
-        }
-        if(Float.parseFloat(precoPetroleiro)!=model.getPrecoPorTipo().get("petroleiro")){
-            model.removerPreco("petroleiro");
-            model.setPrecoPorTipo("petroleiro",Float.parseFloat(precoPetroleiro));
-        }
-        if(Float.parseFloat(precoTurismo)!=model.getPrecoPorTipo().get("turismo")){
-            model.removerPreco("turismo");
-            model.setPrecoPorTipo("turismo",Float.parseFloat(precoTurismo));
-        }
-        if(Float.parseFloat(precoBalsa)!=model.getPrecoPorTipo().get("balsa")){
-            model.removerPreco("balsa");
-            model.setPrecoPorTipo("balsa",Float.parseFloat(precoBalsa));
-        }
-        if(Float.parseFloat(precoBalsa)<0||Float.parseFloat(precoTurismo)<0||Float.parseFloat(precoPetroleiro)<0||Float.parseFloat(precoCargueiro)<0||Float.parseFloat(vazao)<0||Float.parseFloat(capacidadeMinima)<0||Float.parseFloat(capacidadeMaxima)<0||Float.parseFloat(largura)<0||Float.parseFloat(comprimento)<0){
-            view.mostrarErro();
-        }
-    }
-    public void abrir(){
-        if (model.getStatus().equals("seca")||model.getStatus().equals("cheia")){
-            model.setPorta(true);
-            view.recado("Eclusa aberta");
-            if(model.getOcupada()==false){
-                 if(model.getFila().get(0).getSentido().equals("Subir")&& model.getStatus().equals("seca")){
-                     view.sentido("RIO--->MAR");
-                     model.getFila().get(0).entrar(model);
-                     view.atualizaFila(model.tamanhoFila(),model.tempo());
-                        if(model.tamanhoFila()==0){
-                             view.sentidoProxima("Fila vazia");
-                         }
-                 }if(model.getFila().get(0).getSentido().equals("Descer")&& model.getStatus().equals("cheia")){
-                     view.sentido("RIO<---MAR");
-                     model.getFila().get(0).entrar(model);
-                     view.atualizaFila(model.tamanhoFila(),model.tempo());
-                     if(model.tamanhoFila()==0){
-                             view.sentidoProxima("Fila vazia");
-                      }
-                 }
-                 else{
-                     if(model.getFila().get(0).getSentido().equals("Subir")){
-                        view.sentidoProxima("RIO--->MAR");
-                    }else{
-                        view.sentidoProxima("RIO<---MAR");
+            // Só abre se estiver estável (Seca ou Cheia)
+            if (model.getStatus().equals("seca") || model.getStatus().equals("cheia")) {
+                model.setPorta(true);
+                view.recado("Eclusa aberta");
+
+                // SE NÃO TEM NINGUÉM NA ECLUSA (Tenta Entrar)
+                if (model.getOcupada() == false) {
+                    if (model.tamanhoFila() > 0) {
+                        Embarcacao proxima = model.getFila().get(0);
+
+                        // Regra: Subir na Seca
+                        if (proxima.getSentido().equals("Subir") && model.getStatus().equals("seca")) {
+                            view.sentido("RIO--->MAR");
+                            
+                            // Adicionei validação do service aqui por segurança
+                            service.validarEntrada(proxima, model.getStatus()); 
+                            
+                            proxima.entrar(model);
+                            view.atualizaFila(model.tamanhoFila(), model.tempo());
+                            
+                            if (model.tamanhoFila() == 0) view.sentidoProxima("Fila vazia");
+                        } 
+                        // Regra: Descer na Cheia
+                        else if (proxima.getSentido().equals("Descer") && model.getStatus().equals("cheia")) {
+                            view.sentido("RIO<---MAR");
+                            
+                            service.validarEntrada(proxima, model.getStatus());
+                            
+                            proxima.entrar(model);
+                            view.atualizaFila(model.tamanhoFila(), model.tempo());
+                            
+                            if (model.tamanhoFila() == 0) view.sentidoProxima("Fila vazia");
+                        } 
+                        // Nível errado para entrar
+                        else {
+                            if (proxima.getSentido().equals("Subir")) view.sentidoProxima("RIO--->MAR");
+                            else view.sentidoProxima("RIO<---MAR");
+                        }
+                    } else {
+                        view.sentidoProxima("Fila vazia");
                     }
-                 }
-            }else{
-                if((model.getEmbarcacaoNaEclusa().getSentido().equals("Subir")&& model.getStatus().equals("cheia"))||(model.getEmbarcacaoNaEclusa().getSentido().equals("Descer")&& model.getStatus().equals("seca"))){
-                    model.getEmbarcacaoNaEclusa().sair(model);
-                    view.sentido(" ");
+                } 
+                // SE JÁ TEM ALGUÉM NA ECLUSA (Tenta Sair)
+                else {
+                    Embarcacao naEclusa = model.getEmbarcacaoNaEclusa();
+                    
+                    // Verifica se pode sair (Subir na Cheia / Descer na Seca)
+                    if ((naEclusa.getSentido().equals("Subir") && model.getStatus().equals("cheia")) ||
+                        (naEclusa.getSentido().equals("Descer") && model.getStatus().equals("seca"))) {
+                        
+                        // --- A CORREÇÃO ESTÁ AQUI EMBAIXO ---
+                        // 1. Removemos do Banco de Dados pelo ID
+                        service.removerEmbarcacaoDoBanco(naEclusa.getCodigoDeIdentificacao());
+                        
+                        // 2. Só depois removemos da memória (Sair)
+                        naEclusa.sair(model);
+                        
+                        view.sentido(" ");
+                        view.recado("Embarcação saiu e foi removida do banco!");
+                    }
                 }
                 
-  
+                view.atualizaFila(model.tamanhoFila(), model.tempo());
+                // Força atualização visual geral para garantir
+                view.atualizartotalApurado();
+                
+            } else {
+                view.recado("Aguarde o nível estabilizar para abrir.");
             }
-            view.atualizaFila(model.tamanhoFila(),model.tempo());
+        } catch (Exception ex) {
+            view.recado("Erro: " + ex.getMessage());
         }
     }
     public void fechar(){
@@ -482,52 +390,8 @@ public class EclusaController {
             view.recado("feche a eclusa primeiro para secar");
         }
     }
-    public void mostrarEmbarcacao(){
-        if(model.getEmbarcacaoNaEclusa()!=null){
-            if(model.getEmbarcacaoNaEclusa()instanceof Balsa){
-                Balsa balsa=(Balsa)model.getEmbarcacaoNaEclusa();
-                tela.textoEmbarcacao(balsa.mensagemEmbarcacao());
-                tela.nomeEmbarcacao("Balsa");
-            }if(model.getEmbarcacaoNaEclusa()instanceof Cargueiro){
-                Cargueiro carg=(Cargueiro)model.getEmbarcacaoNaEclusa();
-                tela.textoEmbarcacao(carg.mensagemEmbarcacao());
-                tela.nomeEmbarcacao("Navio Cargueiro");
-            }if(model.getEmbarcacaoNaEclusa()instanceof NavioTuristico){
-                NavioTuristico turi=(NavioTuristico)model.getEmbarcacaoNaEclusa();
-                tela.textoEmbarcacao(turi.mensagemEmbarcacao());
-                tela.nomeEmbarcacao("Navio Turistico");
-            }if(model.getEmbarcacaoNaEclusa()instanceof Petroleiro){
-                Petroleiro petro=(Petroleiro)model.getEmbarcacaoNaEclusa();
-                tela.textoEmbarcacao(petro.mensagemEmbarcacao());
-                tela.nomeEmbarcacao("Navio Petroleiro");
-            }
-            tela.setVisible(true);
-        }
-        
-    }
-    
-    public void mostrarEmbarcacao(boolean remove){
-        if(model.getUltimaNaFila()!=null){
-            if(model.getUltimaNaFila()instanceof Balsa){
-                Balsa balsa=(Balsa)model.getUltimaNaFila();
-                removeView.textoEmbarcacao(balsa.mensagemEmbarcacao());
-                removeView.nomeEmbarcacao("Balsa");
-            }if(model.getUltimaNaFila()instanceof Cargueiro){
-                Cargueiro carg=(Cargueiro)model.getUltimaNaFila();
-                removeView.textoEmbarcacao(carg.mensagemEmbarcacao());
-                removeView.nomeEmbarcacao("Navio Cargueiro");
-            }if(model.getUltimaNaFila()instanceof NavioTuristico){
-                NavioTuristico turi=(NavioTuristico)model.getUltimaNaFila();
-                removeView.textoEmbarcacao(turi.mensagemEmbarcacao());
-                removeView.nomeEmbarcacao("Navio Turistico");
-            }if(model.getUltimaNaFila()instanceof Petroleiro){
-                Petroleiro petro=(Petroleiro)model.getUltimaNaFila();
-                removeView.textoEmbarcacao(petro.mensagemEmbarcacao());
-                removeView.nomeEmbarcacao("Navio Petroleiro");
-            }
-        }
-        
-    }
+
+    // A barra de progresso lida diretamente com Swing, mantém no Controller
     public void carregarBarra(){
         final float tempoTotal = model.tempo()*60000;
         final float intervalo = tempoTotal / 100; 
@@ -563,5 +427,134 @@ public class EclusaController {
                 }
             }
         }).start();
+    }
+    
+    // --- ATUALIZAÇÕES GERAIS ---
+    
+    public void atualizarEclusa(){
+         try {
+            float c = Float.parseFloat(telaAtualizar.getCampoComprimento());
+            float l = Float.parseFloat(telaAtualizar.getCampoLargura());
+            float max = Float.parseFloat(telaAtualizar.getCampoCapacidadeMaxima());
+            float min = Float.parseFloat(telaAtualizar.getCampoCapacidadeMinima());
+            float v = Float.parseFloat(telaAtualizar.getCampoVazao());
+            
+            service.validarAtualizacaoEclusa(c, l, max, min, v);
+            
+            // Se passou, atualiza Model (ou poderia ter um método no service pra setar tudo)
+            model.getTamanho().setComprimento(c);
+            model.getTamanho().setLargura(l);
+            model.setCapacidadeMaxima(max);
+            model.setCapacidadeMinima(min);
+            model.setVazao(v);
+            
+            telaAtualizar.atuaTempo(model.tempo());
+            view.atualizaFila(model.tamanhoFila(),model.tempo());
+            
+         } catch(Exception e) { view.mostrarErro(); }
+    }
+    
+    public void atualizarPreco() {
+         try {
+            // Pega valores da View...
+            float carg = Float.parseFloat(telaPreco.getCampoPrecoCargueiro());
+            // ... (pegar outros valores) ...
+            
+            if (carg < 0) { // Validação simples
+                JOptionPane.showMessageDialog(telaPreco, "Valores negativos!");
+            } else {
+                telaPreco.setAtualizou();
+                JOptionPane.showMessageDialog(telaPreco, "Atualizado!");
+            }
+         } catch (Exception e) {
+             telaPreco.setNaoAtualizou();
+             JOptionPane.showMessageDialog(telaPreco, "Erro de formato");
+         }
+    }
+    
+    // --- VISUALIZAÇÃO E REMOÇÃO ---
+    
+    public void voltar(){ tela.setVisible(false); }
+    public void naoRemoverEmbarcacao(){ removeView.setVisible(false); }
+    
+    public void mostrarEmbarcacao(){ 
+        if(model.getEmbarcacaoNaEclusa()!=null) {
+            String msg = model.getEmbarcacaoNaEclusa().mensagemEmbarcacao();
+            tela.textoEmbarcacao(msg);
+            tela.setVisible(true);
+        }
+    }
+    
+    public void abrirRemove(){
+         if(model.tamanhoFila()==0) JOptionPane.showMessageDialog(view, "Fila Vazia");
+         else {
+             removeView = new RemoverEmbarcacao(this);
+             this.mostrarEmbarcacao(true);
+             removeView.setVisible(true);
+         }
+    }
+    
+    public void remove(){
+        if(model.tamanhoFila()>0){
+            view.atualizartotalApuradoRemove();
+            view.atualizaFila(model.tamanhoFila(),model.tempo());
+            if(model.tamanhoFila()==0) view.sentidoProxima("Fila vazia");
+            removeView.setVisible(false);
+            JOptionPane.showMessageDialog(view, "A última embarcação saiu da fila");
+        }
+    }
+    
+    public void mostrarEmbarcacao(boolean remove) {
+        if(model.getUltimaNaFila()!=null){
+             String msg = model.getUltimaNaFila().mensagemEmbarcacao();
+             removeView.textoEmbarcacao(msg);
+        }
+    }
+    
+    public void telaAtualizarEclusa(){ telaAtualizar.setVisible(true); }
+    public void telaAtualizarPrecos(){ telaPreco.setVisible(true); }
+    
+    private void atualizarDadosNaTela() {
+
+        view.atualizaFila(model.tamanhoFila(), model.tempo()); 
+        view.atualizartotalApurado();
+        view.status(model.getStatus());
+
+        if (model.tamanhoFila() > 0) {
+            String sentidoTecnico = model.getFila().get(0).getSentido();
+            String sentidoVisual = traduzirSentido(sentidoTecnico); // Usa o tradutor
+            view.sentidoProxima(sentidoVisual);
+        } else {
+            view.sentidoProxima("---");
+        }
+        
+        if (model.getEmbarcacaoNaEclusa() != null) {
+            view.recado("Ocupada por: " + model.getEmbarcacaoNaEclusa().tipoEmbarcacao());
+            
+            String sentidoTecnico = model.getEmbarcacaoNaEclusa().getSentido();
+            view.sentido(traduzirSentido(sentidoTecnico)); // Usa o tradutor
+        } else {
+            view.sentido("---");
+        }
+        
+        view.barra(0);
+    }
+
+    private String traduzirSentido(String sentido) {
+        if (sentido == null) return "---";
+        if (sentido.equalsIgnoreCase("Subir")) {
+           return "RIO--->MAR";
+        } else if (sentido.equalsIgnoreCase("Descer")) {
+            return "RIO<---MAR"; 
+ 
+        }
+        return sentido;
+    }
+    public void novoDia() {
+        // 1. Zera o valor no Model
+        model.iniciarNovoDia();
+
+        // 3. Atualiza o texto do valor (R$ 0.00)
+        view.atualizartotalApurado();
     }
 }

@@ -3,7 +3,7 @@ package model;
 
 import java.util.Objects;
 
-public abstract class Embarcacao{
+public abstract class Embarcacao {
     private Tamanho tamanho;
     private String portoOrigem;
     private String portoDestino;
@@ -12,15 +12,26 @@ public abstract class Embarcacao{
     private Capitao capitao;
     private String sentido;
 
+    
+    public abstract String mensagemEmbarcacao();
+    public abstract String tipoEmbarcacao(); 
+    
+    // ---------------------------
+
     public Embarcacao(){}
+    
     public Embarcacao(Tamanho tamanho, String portoOrigem, String portoDestino, String pais, int codigoDeIdentificacao, Capitao capitao, String sentido){
-        this.tamanho=tamanho;
+        this.tamanho = tamanho;
         setPortoOrigem(portoOrigem);
         setPortoDestino(portoDestino);
         setPais(pais);
         setCodigoDeIdentificacao(codigoDeIdentificacao);
-        this.capitao=capitao;
+        this.capitao = capitao;
         setSentido(sentido);
+    }
+
+    public Capitao getCapitao() {
+        return this.capitao;
     }
 
     public String getPortoOrigem() {
@@ -28,12 +39,13 @@ public abstract class Embarcacao{
     }
 
     public void setPortoOrigem(String portoOrigem) {
-        if(portoOrigem!=null){
+        if(portoOrigem != null){
             this.portoOrigem = portoOrigem;
         }
     }
+    
     public String getNome(){
-        return capitao.getNome();
+        return capitao != null ? capitao.getNome() : "Sem Capitão";
     }
 
     public String getPortoDestino() {
@@ -41,7 +53,7 @@ public abstract class Embarcacao{
     }
 
     public void setPortoDestino(String portoDestino) {
-        if(portoDestino!=null){
+        if(portoDestino != null){
             this.portoDestino = portoDestino;
         }
     }
@@ -51,7 +63,7 @@ public abstract class Embarcacao{
     }
 
     public void setPais(String pais) {
-        if(pais!=null){
+        if(pais != null){
             this.pais = pais;
         }
     }
@@ -61,7 +73,7 @@ public abstract class Embarcacao{
     }
 
     public void setCodigoDeIdentificacao(int codigoDeIdentificacao) {
-        if(codigoDeIdentificacao>0){
+        if(codigoDeIdentificacao > 0){
             this.codigoDeIdentificacao = codigoDeIdentificacao;
         }
     }
@@ -71,39 +83,37 @@ public abstract class Embarcacao{
     }
 
     public void setSentido(String sentido) {
-        if(sentido!=null){
+        if(sentido != null){
             this.sentido = sentido;
         }
     }
-    public String tipoEmbarcacao;
-    public String mensagemEmbarcacao;
-    
+
     public void entrar(Eclusa eclusa){
-        if(eclusa.getOcupada()==false && eclusa.tamanhoFila()>0){
-            if((eclusa.getStatus().equals("seca")&&eclusa.getFila().get(0).getSentido().equals("Subir"))||(eclusa.getStatus().equals("cheia")&&eclusa.getFila().get(0).getSentido().equals("Descer"))){
+        if(!eclusa.getOcupada() && eclusa.tamanhoFila() > 0){
+            Embarcacao proxima = eclusa.getFila().get(0);
+            boolean podeSubir = eclusa.getStatus().equals("seca") && proxima.getSentido().equals("Subir");
+            boolean podeDescer = eclusa.getStatus().equals("cheia") && proxima.getSentido().equals("Descer");
+
+            if(podeSubir || podeDescer){
                 eclusa.setOcupada(true);
-                eclusa.setEmbarcacaoNaEclusa(eclusa.getFila().get(0));
+                eclusa.setEmbarcacaoNaEclusa(proxima);
                 eclusa.removerDaFila();
-                
-              }
+            }
         }
     }
+
     public void sair(Eclusa eclusa){
-        if(eclusa.getStatus().equals("seca")||eclusa.getStatus().equals("cheia")){
+        if(eclusa.getStatus().equals("seca") || eclusa.getStatus().equals("cheia")){
             eclusa.setOcupada(false);
-            eclusa.removerMap();
+            eclusa.removerMap(); 
             eclusa.setEmbarcacaoNaEclusa(null);
         }
     }
     
-        @Override
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Embarcacao embarcacao = (Embarcacao) obj;
         return codigoDeIdentificacao == embarcacao.codigoDeIdentificacao;
     }
@@ -112,5 +122,4 @@ public abstract class Embarcacao{
     public int hashCode() {
         return Objects.hash(codigoDeIdentificacao);
     }
-
 }

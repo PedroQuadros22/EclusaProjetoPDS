@@ -19,6 +19,8 @@ public class RemoverEmbarcacao extends javax.swing.JFrame {
     public RemoverEmbarcacao(EclusaController controller){
         this.controller=controller;
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private RemoverEmbarcacao() {

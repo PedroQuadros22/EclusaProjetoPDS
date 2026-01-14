@@ -5,7 +5,9 @@
 package com.mycompany.view;
 
 import controller.EclusaController;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import model.Capitao;
 
 /**
  *
@@ -18,12 +20,14 @@ public class PetroleiroView extends javax.swing.JDialog {
      */
     private EclusaController controller;
     public PetroleiroView(EclusaController controller){
-        this.controller=controller;
         initComponents();
+        this.controller=controller;
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
     public PetroleiroView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        
     }
     public void mostrarErro(){
         JOptionPane.showMessageDialog(this, "O Navio nao cabe na eclusa");
@@ -49,7 +53,6 @@ public class PetroleiroView extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         sentido = new javax.swing.JComboBox<>();
-        capitao = new javax.swing.JTextField();
         codigoIdentificacao = new javax.swing.JTextField();
         comprimento = new javax.swing.JTextField();
         largura = new javax.swing.JTextField();
@@ -60,6 +63,7 @@ public class PetroleiroView extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         litros = new javax.swing.JTextField();
+        cbCapitaes = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -123,6 +127,12 @@ public class PetroleiroView extends javax.swing.JDialog {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Litros de Petroleo:");
 
+        cbCapitaes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCapitaesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,8 +142,8 @@ public class PetroleiroView extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(capitao, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addComponent(cbCapitaes, 0, 196, Short.MAX_VALUE))
                     .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
@@ -154,7 +164,7 @@ public class PetroleiroView extends javax.swing.JDialog {
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(sentido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -211,7 +221,7 @@ public class PetroleiroView extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(capitao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbCapitaes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -256,6 +266,10 @@ public class PetroleiroView extends javax.swing.JDialog {
         controller.evento(evt);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cbCapitaesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCapitaesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCapitaesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,7 +313,7 @@ public class PetroleiroView extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField capitao;
+    private javax.swing.JComboBox<model.Capitao> cbCapitaes;
     private javax.swing.JTextField codigoIdentificacao;
     private javax.swing.JTextField comprimento;
     private javax.swing.JTextField destino;
@@ -334,9 +348,6 @@ public class PetroleiroView extends javax.swing.JDialog {
         return pais.getText();
     }
 
-    public String getCapitao() {
-        return capitao.getText();
-    }
 
     public String getSentido() {
         return (String) sentido.getSelectedItem();
@@ -357,5 +368,17 @@ public class PetroleiroView extends javax.swing.JDialog {
     public int getCodigoIdentificacao() throws NumberFormatException {
         return Integer.parseInt(codigoIdentificacao.getText());
     }
-
+    public void atualizarComboCapitaes(Capitao[] listaCapitaes) {
+        
+        // O DefaultComboBoxModel aceita um vetor de objetos
+        DefaultComboBoxModel<Capitao> model = new DefaultComboBoxModel<>(listaCapitaes);
+        
+        // Define o modelo na tua ComboBox visual
+        cbCapitaes.setModel(model);
+    }
+    
+    // MÉTODO ÚTIL: Para pegares quem foi escolhido
+    public Capitao getCapitaoSelecionado() {
+        return (Capitao) cbCapitaes.getSelectedItem();
+    }
 }
